@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apex Learning Hub</title>
+
+  <!-- Google Fonts: Playfair Display for headings, Lato for body -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+
+  <!-- ===================== INTERNAL CSS ===================== -->
+  <style>
+
+    /* ── CSS Variables (color palette & typography) ── */
+    :root {
+      --navy:      #0B2545;   /* deep navy – primary brand */
+      --blue:      #1A5276;   /* mid blue */
+      --sky:       #2E86C1;   /* accent blue */
+      --gold:      #F4C542;   /* warm gold accent */
+      --white:     #FFFFFF;
+      --off-white: #F5F8FC;
+      --text:      #1C2B3A;
+      --muted:     #6B7E8F;
+      --border:    #D4E1EE;
+      --radius:    8px;
+      --shadow:    0 4px 20px rgba(11,37,69,.12);
+      --transition: 0.3s ease;
+    }
+
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.7;
+    }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ══════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+      background: var(--navy);
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+      transition: background var(--transition);
+    }
+
+    /* School logo / name */
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-brand .logo-icon {
+      width: 38px; height: 38px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .nav-brand span {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--white);
+      letter-spacing: .5px;
+    }
+
+    /* Desktop nav links */
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 8px;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,.85);
+      font-size: .92rem;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: var(--radius);
+      transition: background var(--transition), color var(--transition);
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* Hamburger (mobile) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      width: 26px; height: 3px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+    /* Hamburger → X animation */
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: var(--navy);
+      padding: 16px 5% 24px;
+      z-index: 999;
+      border-top: 2px solid var(--gold);
+      animation: slideDown .25s ease;
+    }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+      display: block;
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      transition: color var(--transition);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    /* ══════════════════════════════════════
+       SECTION COMMON
+    ══════════════════════════════════════ */
+    section { padding: 90px 5%; }
+    section:first-of-type { padding-top: 110px; } /* offset for fixed navbar */
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-title h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .section-title .underline {
+      width: 60px; height: 4px;
+      background: var(--gold);
+      border-radius: 2px;
+      margin: 0 auto 14px;
+    }
+    .section-title p {
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto;
+      font-size: .97rem;
+    }
+
+    /* ══════════════════════════════════════
+       HOME / HERO
+    ══════════════════════════════════════ */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 68px;                      /* height of navbar */
+      background:
+        linear-gradient(135deg, rgba(11,37,69,.92) 0%, rgba(26,82,118,.78) 60%, transparent 100%),
+        url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1400&q=80') center/cover no-repeat;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    /* subtle animated blobs */
+    #home::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 40%, rgba(244,197,66,.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 680px;
+      animation: fadeUp .8s ease both;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 30px;
+      margin-bottom: 20px;
+      animation: fadeUp .8s ease .1s both;
+    }
+    .hero-content h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      animation: fadeUp .8s ease .2s both;
+    }
+    .hero-content h1 span { color: var(--gold); }
+    .hero-content p {
+      font-size: 1.08rem;
+      font-weight: 300;
+      opacity: .9;
+      max-width: 500px;
+      margin-bottom: 36px;
+      animation: fadeUp .8s ease .3s both;
+    }
+    .hero-buttons {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      animation: fadeUp .8s ease .4s both;
+    }
+
+    /* Reusable button styles */
+    .btn {
+      display: inline-block;
+      padding: 13px 30px;
+      border-radius: var(--radius);
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: 2px solid transparent;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+    }
+    .btn-primary:hover {
+      background: #e6b530;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(244,197,66,.4);
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: var(--white);
+      color: var(--white);
+    }
+    .btn-outline:hover {
+      background: var(--white);
+      color: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    /* Welcome banner (JS-toggled) */
+    #welcome-banner {
+      display: none;
+      margin-top: 28px;
+      padding: 14px 22px;
+      background: rgba(244,197,66,.18);
+      border: 1.5px solid var(--gold);
+      border-radius: var(--radius);
+      color: var(--gold);
+      font-size: 1.05rem;
+      font-weight: 700;
+      animation: fadeUp .5s ease;
+      max-width: 380px;
+    }
+
+    /* Stats row */
+    .hero-stats {
+      position: absolute;
+      bottom: 36px; left: 5%; right: 5%;
+      display: flex; gap: 20px; flex-wrap: wrap;
+      animation: fadeUp .8s ease .6s both;
+    }
+    .stat-chip {
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius);
+      padding: 14px 24px;
+      text-align: center;
+      min-width: 110px;
+    }
+    .stat-chip strong {
+      display: block;
+      font-size: 1.6rem;
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+    }
+    .stat-chip span { font-size: .78rem; opacity: .85; }
+
+    /* ══════════════════════════════════════
+       ABOUT
+    ══════════════════════════════════════ */
+    #about { background: var(--off-white); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .about-image {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .about-image img {
+      width: 100%; height: 380px;
+      object-fit: cover;
+      display: block;
+    }
+    /* floating accent */
+    .about-image::after {
+      content: '';
+      position: absolute;
+      bottom: -16px; right: -16px;
+      width: 120px; height: 120px;
+      background: var(--gold);
+      border-radius: 12px;
+      z-index: -1;
+    }
+    .about-text h2 {
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 16px;
+      font-size: .97rem;
+    }
+    .about-values {
+      list-style: none;
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 24px;
+    }
+    .about-values li {
+      background: var(--navy);
+      color: var(--white);
+      padding: 7px 16px;
+      border-radius: 30px;
+      font-size: .83rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+
+    /* ══════════════════════════════════════
+       COURSES
+    ══════════════════════════════════════ */
+    #courses { background: var(--white); }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .course-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex; flex-direction: column;
+    }
+    .course-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(11,37,69,.16);
+    }
+    .course-banner {
+      height: 160px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    /* unique color per card */
+    .course-card:nth-child(1) .course-banner { background: linear-gradient(135deg,#0B2545,#1A5276); }
+    .course-card:nth-child(2) .course-banner { background: linear-gradient(135deg,#1A5276,#2E86C1); }
+    .course-card:nth-child(3) .course-banner { background: linear-gradient(135deg,#117A65,#1ABC9C); }
+    .course-card:nth-child(4) .course-banner { background: linear-gradient(135deg,#6C3483,#9B59B6); }
+    .course-card:nth-child(5) .course-banner { background: linear-gradient(135deg,#C0392B,#E74C3C); }
+    .course-card:nth-child(6) .course-banner { background: linear-gradient(135deg,#B7950B,#F4C542); }
+
+    .course-body { padding: 22px 24px; flex: 1; display: flex; flex-direction: column; }
+    .course-tag {
+      display: inline-block;
+      background: var(--off-white);
+      color: var(--sky);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+    }
+    .course-body h3 {
+      font-size: 1.15rem;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .course-body p {
+      color: var(--muted);
+      font-size: .9rem;
+      flex: 1;
+      margin-bottom: 18px;
+    }
+    .course-meta {
+      display: flex; gap: 14px; font-size: .82rem; color: var(--muted);
+    }
+    .course-meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* ══════════════════════════════════════
+       CONTACT
+    ══════════════════════════════════════ */
+    #contact {
+      background: var(--off-white);
+    }
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 56px;
+      max-width: 1000px;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .contact-info h3 {
+      font-size: 1.5rem;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+    .contact-info p { color: var(--muted); font-size: .95rem; margin-bottom: 28px; }
+    .info-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      margin-bottom: 18px;
+    }
+    .info-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      background: var(--navy);
+      color: var(--gold);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .info-item div strong { display: block; color: var(--navy); font-size: .9rem; }
+    .info-item div span { color: var(--muted); font-size: .87rem; }
+
+    /* Form */
+    .contact-form {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 36px 32px;
+      box-shadow: var(--shadow);
+    }
+    .contact-form h3 {
+      font-size: 1.4rem;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 7px;
+      letter-spacing: .3px;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'Lato', sans-serif;
+      font-size: .95rem;
+      color: var(--text);
+      background: var(--off-white);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--sky);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(46,134,193,.15);
+    }
+    /* Error state */
+    .form-group input.error,
+    .form-group textarea.error { border-color: #e74c3c; }
+    .form-group .error-msg {
+      display: none;
+      color: #e74c3c;
+      font-size: .78rem;
+      margin-top: 5px;
+    }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-submit:hover {
+      background: var(--sky);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(46,134,193,.35);
+    }
+
+    /* Success message (shown by JS) */
+    #form-success {
+      display: none;
+      background: #e8f8f2;
+      border: 1.5px solid #2ecc71;
+      color: #1a7a45;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-top: 16px;
+      font-size: .93rem;
+      font-weight: 700;
+      text-align: center;
+      animation: fadeUp .4s ease;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.7);
+      text-align: center;
+      padding: 28px 5%;
+      font-size: .87rem;
+    }
+    footer strong { color: var(--gold); }
+
+    /* ══════════════════════════════════════
+       SCROLL-TO-TOP
+    ══════════════════════════════════════ */
+    #scroll-top {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      width: 44px; height: 44px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0,0,0,.2);
+      display: none;
+      align-items: center; justify-content: center;
+      transition: background var(--transition), transform var(--transition);
+      z-index: 900;
+    }
+    #scroll-top:hover { background: #e6b530; transform: translateY(-3px); }
+    #scroll-top.visible { display: flex; }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 768px) {
+      /* Show hamburger, hide desktop links */
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      /* Hero */
+      #home { min-height: auto; padding-bottom: 100px; }
+      .hero-content h1 { font-size: 2.2rem; }
+      .hero-stats { position: static; margin-top: 40px; }
+
+      /* About */
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .about-image::after { display: none; }
+
+      /* Contact */
+      .contact-wrapper { grid-template-columns: 1fr; gap: 36px; }
+      .contact-form { padding: 24px 20px; }
+
+      section { padding: 72px 5%; }
+    }
+    @media (max-width: 480px) {
+      .hero-content h1 { font-size: 1.9rem; }
+      .btn { padding: 11px 22px; font-size: .88rem; }
+      .stat-chip { min-width: 90px; padding: 10px 16px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+  ============================================================ -->
+  <nav id="navbar" role="navigation" aria-label="Main Navigation">
+    <div class="nav-brand">
+      <!-- Simple emoji logo (swap for <img> if you have a real logo) -->
+      <div class="logo-icon" aria-hidden="true">🎓</div>
+      <span>Apex Learning Hub</span>
+    </div>
+
+    <!-- Desktop navigation links -->
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#home"    class="nav-link active">Home</a></li>
+      <li><a href="#about"   class="nav-link">About</a></li>
+      <li><a href="#courses" class="nav-link">Courses</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+
+    <!-- Hamburger button (mobile) -->
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile slide-down menu -->
+  <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile Navigation">
+    <a href="#home"    class="mobile-link">Home</a>
+    <a href="#about"   class="mobile-link">About</a>
+    <a href="#courses" class="mobile-link">Courses</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+  </div>
+
+
+  <!-- ============================================================
+       HOME / HERO SECTION
+  ============================================================ -->
+  <section id="home" aria-label="Welcome Banner">
+    <div class="hero-content">
+      <span class="hero-badge">&#127891; Est. 1995 · Excellence in Education</span>
+
+      <h1>Shaping <span>Bright Futures</span><br>One Student at a Time</h1>
+
+      <p>
+        Apex Learning Hub is committed to academic excellence, character development,
+        and preparing tomorrow's leaders in a nurturing, inspiring environment.
+      </p>
+
+      <div class="hero-buttons">
+        <!-- Smooth-scroll to courses -->
+        <a href="#courses" class="btn btn-primary">Explore Courses</a>
+
+        <!-- JS interactive button: shows welcome message -->
+        <button class="btn btn-outline" onclick="showWelcome()" id="welcome-btn">
+          👋 Say Hello
+        </button>
+      </div>
+
+      <!-- Hidden welcome message revealed by JS -->
+      <div id="welcome-banner" role="alert">
+        🌟 Welcome to Apex Learning Hub — we're glad you're here!
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="hero-stats" aria-label="School highlights">
+      <div class="stat-chip"><strong>1,200+</strong><span>Students</span></div>
+      <div class="stat-chip"><strong>80+</strong><span>Teachers</span></div>
+      <div class="stat-chip"><strong>30+</strong><span>Courses</span></div>
+      <div class="stat-chip"><strong>25+</strong><span>Years of Excellence</span></div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       ABOUT SECTION
+  ============================================================ -->
+  <section id="about" aria-label="About Apex Learning Hub">
+    <div class="section-title">
+      <h2>About Our School</h2>
+      <div class="underline" aria-hidden="true"></div>
+      <p>Learn who we are, what we stand for, and why families trust us.</p>
+    </div>
+
+    <div class="about-grid">
+      <!-- School image -->
+      <div class="about-image">
+        <img
+          src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=700&q=80"
+          alt="Students studying in a bright classroom at Apex Learning Hub"
+        />
+      </div>
+
+      <!-- About text -->
+      <div class="about-text">
+        <h2>A Legacy of<br>Learning &amp; Growth</h2>
+        <p>
+          Founded in 1995, Apex Learning Hub has been a cornerstone of educational
+          excellence in our community. We believe every child has unique potential —
+          our mission is to discover and nurture it.
+        </p>
+        <p>
+          Our state-of-the-art facilities, dedicated faculty, and student-centred
+          approach create an environment where curiosity thrives and achievements
+          are celebrated at every stage.
+        </p>
+        <p>
+          From science labs to sports fields, arts studios to computer rooms —
+          Greenwood equips students with the skills, values, and confidence to
+          succeed in a rapidly changing world.
+        </p>
+
+        <!-- Core values shown as pill badges -->
+        <ul class="about-values" aria-label="Core values">
+          <li>🏆 Academic Excellence</li>
+          <li>🤝 Integrity</li>
+          <li>🌍 Inclusivity</li>
+          <li>💡 Innovation</li>
+          <li>💚 Community</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       COURSES SECTION
+  ============================================================ -->
+  <section id="courses" aria-label="Our Courses">
+    <div class="section-title">
+      <h2>Our Courses</h2>
+      <div class="underline" aria-hidden="true"></div>
+      <p>A broad curriculum designed to inspire passion and build expertise.</p>
+    </div>
+
+    <div class="courses-grid">
+
+      <!-- Course 1 -->
+      <article class="course-card">
+        <div class="course-banner" aria-hidden="true">🔬</div>
+        <div class="course-body">
+          <span class="course-tag">Science</span>
+          <h3>Advanced Sciences</h3>
+          <p>
+            Physics, Chemistry and Biology taught through hands-on experiments
+            and real-world problem solving.
+          </p>
+          <div class="course-meta">
+            <span>📅 Full Year</span>
+            <span>👩‍🏫 Grades 9–12</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 2 -->
+      <article class="course-card">
+        <div class="course-banner" aria-hidden="true">💻</div>
+        <div class="course-body">
+          <span class="course-tag">Technology</span>
+          <h3>Computer Science</h3>
+          <p>
+            Programming fundamentals, web development, and computational thinking
+            using Python and JavaScript.
+          </p>
+          <div class="course-meta">
+            <span>📅 Full Year</span>
+            <span>👩‍🏫 Grades 7–12</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 3 -->
+      <article class="course-card">
+        <div class="course-banner" aria-hidden="true">📐</div>
+        <div class="course-body">
+          <span class="course-tag">Mathematics</span>
+          <h3>Advanced Mathematics</h3>
+          <p>
+            From algebra and geometry to calculus and statistics — building
+            analytical skills for every career path.
+          </p>
+          <div class="course-meta">
+            <span>📅 Full Year</span>
+            <span>👩‍🏫 Grades 6–12</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 4 -->
+      <article class="course-card">
+        <div class="course-banner" aria-hidden="true">🎨</div>
+        <div class="course-body">
+          <span class="course-tag">Arts</span>
+          <h3>Visual Arts &amp; Design</h3>
+          <p>
+            Painting, sculpture, digital design and art history in a creative
+            studio space that celebrates self-expression.
+          </p>
+          <div class="course-meta">
+            <span>📅 Semester</span>
+            <span>👩‍🏫 Grades 6–12</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 5 -->
+      <article class="course-card">
+        <div class="course-banner" aria-hidden="true">📖</div>
+        <div class="course-body">
+          <span class="course-tag">Languages</span>
+          <h3>English &amp; Literature</h3>
+          <p>
+            Critical reading, creative writing, public speaking and literary
+            analysis to develop confident communicators.
+          </p>
+          <div class="course-meta">
+            <span>📅 Full Year</span>
+            <span>👩‍🏫 Grades 6–12</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Course 6 -->
+      <article class="course-card">
+        <div class="course-banner" aria-hidden="true">⚽</div>
+        <div class="course-body">
+          <span class="course-tag">Physical Ed</span>
+          <h3>Sports &amp; Health</h3>
+          <p>
+            Team sports, fitness, nutrition and mental wellness — developing
+            healthy habits and leadership on and off the field.
+          </p>
+          <div class="course-meta">
+            <span>📅 Full Year</span>
+            <span>👩‍🏫 Grades 6–12</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CONTACT SECTION
+  ============================================================ -->
+  <section id="contact" aria-label="Contact Us">
+    <div class="section-title">
+      <h2>Get in Touch</h2>
+      <div class="underline" aria-hidden="true"></div>
+      <p>We'd love to hear from you — reach out with any questions.</p>
+    </div>
+
+    <div class="contact-wrapper">
+
+      <!-- Contact info panel -->
+      <div class="contact-info">
+        <h3>Visit or Write to Us</h3>
+        <p>
+          Our admissions team is available Monday–Friday, 8 am–4 pm.
+          Fill in the form and we'll reply within one business day.
+        </p>
+
+        <div class="info-item">
+          <div class="info-icon" aria-hidden="true">📍</div>
+          <div>
+            <strong>Address</strong>
+            <span>42 Greenwood Lane, Springfield, ST 12345</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon" aria-hidden="true">📞</div>
+          <div>
+            <strong>Phone</strong>
+            <span>+1 (555) 867-5309</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon" aria-hidden="true">✉️</div>
+          <div>
+            <strong>Email</strong>
+            <span>info@greenwoodacademy.edu</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon" aria-hidden="true">🕐</div>
+          <div>
+            <strong>Office Hours</strong>
+            <span>Mon – Fri · 8:00 AM – 4:00 PM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact form -->
+      <div class="contact-form">
+        <h3>Send a Message</h3>
+
+        <form id="contact-form" novalidate>
+
+          <!-- Name field -->
+          <div class="form-group">
+            <label for="name">Full Name <span aria-hidden="true">*</span></label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="e.g. Jane Smith"
+              autocomplete="name"
+            />
+            <span class="error-msg" id="name-error">⚠ Please enter your full name.</span>
+          </div>
+
+          <!-- Email field -->
+          <div class="form-group">
+            <label for="email">Email Address <span aria-hidden="true">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="e.g. jane@example.com"
+              autocomplete="email"
+            />
+            <span class="error-msg" id="email-error">⚠ Please enter a valid email address.</span>
+          </div>
+
+          <!-- Message field -->
+          <div class="form-group">
+            <label for="message">Message <span aria-hidden="true">*</span></label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder="Write your message here…"
+            ></textarea>
+            <span class="error-msg" id="message-error">⚠ Please write a message before sending.</span>
+          </div>
+
+          <!-- Submit button -->
+          <button type="submit" class="btn-submit">Send Message ✉</button>
+
+          <!-- Success message (hidden by default, shown by JS) -->
+          <div id="form-success" role="alert" aria-live="polite">
+            ✅ Thank you! Your message has been sent. We'll be in touch soon.
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <p>
+      &copy; <span id="year"></span>
+      <strong>Apex Learning Hub</strong>. All rights reserved.
+      Crafted with 💙 for students everywhere.
+    </p>
+  </footer>
+
+
+  <!-- Scroll-to-top button -->
+  <button id="scroll-top" aria-label="Scroll back to top" title="Back to top">&#8679;</button>
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+
+    /* ────────────────────────────────────────────────
+       1. SET CURRENT YEAR IN FOOTER
+    ──────────────────────────────────────────────── */
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+
+    /* ────────────────────────────────────────────────
+       2. HAMBURGER MENU (mobile toggle)
+    ──────────────────────────────────────────────── */
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', function () {
+      // Toggle open/close classes
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close mobile menu when a link is clicked
+    document.querySelectorAll('.mobile-link').forEach(function (link) {
+      link.addEventListener('click', function () {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+      });
+    });
+
+
+    /* ────────────────────────────────────────────────
+       3. ACTIVE NAV LINK HIGHLIGHT ON SCROLL
+       Uses IntersectionObserver to detect which
+       section is currently visible.
+    ──────────────────────────────────────────────── */
+    const sections  = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('.nav-link');
+
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            // Remove active from all links
+            navLinks.forEach(function (l) { l.classList.remove('active'); });
+            // Add active to matching link
+            const activeLink = document.querySelector('.nav-link[href="#' + entry.target.id + '"]');
+            if (activeLink) activeLink.classList.add('active');
+          }
+        });
+      },
+      { threshold: 0.35 }   // section must be 35% visible
+    );
+
+    sections.forEach(function (s) { observer.observe(s); });
+
+
+    /* ────────────────────────────────────────────────
+       4. SCROLL-TO-TOP BUTTON
+       Appears once the user scrolls 300 px down.
+    ──────────────────────────────────────────────── */
+    const scrollTopBtn = document.getElementById('scroll-top');
+
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    });
+
+    scrollTopBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+
+    /* ────────────────────────────────────────────────
+       5. INTERACTIVE WELCOME MESSAGE (hero button)
+       Clicking "Say Hello" reveals a banner message.
+       Clicking again hides it (toggle behaviour).
+    ──────────────────────────────────────────────── */
+    function showWelcome() {
+      var banner = document.getElementById('welcome-banner');
+      var btn    = document.getElementById('welcome-btn');
+
+      if (banner.style.display === 'block') {
+        // Hide it
+        banner.style.display = 'none';
+        btn.textContent = '👋 Say Hello';
+      } else {
+        // Show it
+        banner.style.display = 'block';
+        btn.textContent = '✖ Close';
+      }
+    }
+
+
+    /* ────────────────────────────────────────────────
+       6. CONTACT FORM VALIDATION
+       Checks that:
+         • Name is not empty
+         • Email is not empty AND is a valid format
+         • Message is not empty
+       Shows inline error messages if any field fails.
+       Shows a success message on valid submission.
+    ──────────────────────────────────────────────── */
+
+    /**
+     * Helper: validates an email address format using RegEx.
+     * Returns true if valid, false otherwise.
+     */
+    function isValidEmail(email) {
+      // Simple but reliable email pattern
+      var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return pattern.test(email);
+    }
+
+    /**
+     * Helper: shows or hides the error state for a field.
+     * @param {string} fieldId   - ID of the <input> or <textarea>
+     * @param {string} errorId   - ID of the matching error <span>
+     * @param {boolean} hasError - true = show error, false = clear it
+     */
+    function setFieldError(fieldId, errorId, hasError) {
+      var field = document.getElementById(fieldId);
+      var error = document.getElementById(errorId);
+
+      if (hasError) {
+        field.classList.add('error');
+        error.style.display = 'block';
+      } else {
+        field.classList.remove('error');
+        error.style.display = 'none';
+      }
+    }
+
+    // Listen for form submission
+    document.getElementById('contact-form').addEventListener('submit', function (event) {
+      // Prevent default browser submission (page reload)
+      event.preventDefault();
+
+      // Read field values (trim whitespace)
+      var name    = document.getElementById('name').value.trim();
+      var email   = document.getElementById('email').value.trim();
+      var message = document.getElementById('message').value.trim();
+
+      // Track whether the whole form is valid
+      var formIsValid = true;
+
+      // --- Validate Name ---
+      if (name === '') {
+        setFieldError('name', 'name-error', true);
+        formIsValid = false;
+      } else {
+        setFieldError('name', 'name-error', false);
+      }
+
+      // --- Validate Email ---
+      if (email === '' || !isValidEmail(email)) {
+        setFieldError('email', 'email-error', true);
+        formIsValid = false;
+      } else {
+        setFieldError('email', 'email-error', false);
+      }
+
+      // --- Validate Message ---
+      if (message === '') {
+        setFieldError('message', 'message-error', true);
+        formIsValid = false;
+      } else {
+        setFieldError('message', 'message-error', false);
+      }
+
+      // --- If all fields are valid, "send" the form ---
+      if (formIsValid) {
+        // Show success message inside the form
+        document.getElementById('form-success').style.display = 'block';
+
+        // Also show a browser alert for extra visibility
+        alert('✅ Message sent successfully!\n\nThank you, ' + name + '. We\'ll get back to you soon.');
+
+        // Reset the form fields back to empty
+        document.getElementById('contact-form').reset();
+      }
+    });
+
+    // Clear error styling as the user types (live feedback)
+    ['name', 'email', 'message'].forEach(function (fieldId) {
+      document.getElementById(fieldId).addEventListener('input', function () {
+        setFieldError(fieldId, fieldId + '-error', false);
+        // Also hide the success message if user edits after submitting
+        document.getElementById('form-success').style.display = 'none';
+      });
+    });
+
+  </script>
+
+</body>
+</html>
